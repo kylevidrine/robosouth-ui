@@ -3,7 +3,7 @@
 // Input and Button are each app's own stock shadcn components.
 // onBuy / buyLabel: leave both out for an app that only uses beta codes (no Buy button, no OR divider).
 // background: only for apps whose page is not on the shadcn theme yet.
-import type { FormEvent } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { AuthPage, AuthError } from './AuthPage';
@@ -12,8 +12,10 @@ import { AppLabel } from './AppLabel';
 import { OrDivider } from './OrDivider';
 
 type GetAccessPageProps = {
-  logoSrc: string;
-  logoAlt: string;
+  // logo: for an app with no logo image yet, the same element its sign-in page shows. Leave logoSrc and logoAlt out then.
+  logo?: ReactNode;
+  logoSrc?: string;
+  logoAlt?: string;
   logoBordered?: boolean;
   appName: string;
   email: string;
@@ -31,11 +33,11 @@ type GetAccessPageProps = {
 };
 
 export function GetAccessPage(props: GetAccessPageProps) {
-  const { logoSrc, logoAlt, logoBordered, email, accessCode, onAccessCodeChange, onSubmitCode, onBuy, buyLabel, onSignOut, busy, error, notice, background, labelColor, appName } = props;
+  const { logo, logoSrc, logoAlt, logoBordered, email, accessCode, onAccessCodeChange, onSubmitCode, onBuy, buyLabel, onSignOut, busy, error, notice, background, labelColor, appName } = props;
   const canBuy = !!onBuy && !!buyLabel;
   return (
     <AuthPage background={background}>
-      <AppLogo src={logoSrc} alt={logoAlt} bordered={logoBordered} />
+      {logo ?? (logoSrc && logoAlt ? <AppLogo src={logoSrc} alt={logoAlt} bordered={logoBordered} /> : null)}
       <AppLabel color={labelColor}>{appName}</AppLabel>
       <h1 className="text-2xl font-bold mb-2">Get access</h1>
       <p className="text-base leading-relaxed text-muted-foreground mb-6">
