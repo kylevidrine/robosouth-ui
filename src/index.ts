@@ -7,3 +7,5 @@ export { EmailButtons } from './EmailButtons';
 export { AppFooter } from './AppFooter';
 export { EmailForm } from './EmailForm';
 export { AuthPage, AuthError } from './AuthPage';
+export { GetAccessPage } from './GetAccessPage';
+export { PaymentReceivedPage } from './PaymentReceivedPage';
