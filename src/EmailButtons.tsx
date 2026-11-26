@@ -12,18 +12,20 @@ type EmailButtonsProps = {
   fillColor?: string;
   outlineColor?: string;
   textColor?: string;
+  // fillTextColor: text color on the filled button when it differs from textColor (e.g. purple on gold).
+  fillTextColor?: string;
 };
 
 const shape = 'flex-1 h-11 text-sm font-bold';
 
-export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlineColor, textColor }: EmailButtonsProps) {
+export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlineColor, textColor, fillTextColor }: EmailButtonsProps) {
   return (
     <div className="flex gap-3 w-full">
       <Button
         type="button"
         className={shape}
         variant={signInOpen ? 'secondary' : 'default'}
-        style={fillColor ? { backgroundColor: fillColor, color: textColor } : undefined}
+        style={fillColor ? { backgroundColor: fillColor, color: fillTextColor ?? textColor } : undefined}
         onClick={onSignIn}
       >
         Sign in with Email

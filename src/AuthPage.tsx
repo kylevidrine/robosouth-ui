@@ -1,4 +1,4 @@
-// Shared frame for every sign-in page: full-height page, side and bottom padding,
+// Shared frame for every sign-in page: full-height page that scrolls itself (works even when an app locks body scrolling), side and bottom padding,
 // extra top space for the iPhone status bar, and a centered column no wider than 24rem.
 // background: only for apps whose page is not on the shadcn theme yet (Sports Network keeps navy).
 // Also the shared error line shown under the sign-in form.
@@ -12,7 +12,7 @@ type AuthPageProps = {
 export function AuthPage({ children, background }: AuthPageProps) {
   return (
     <div
-      className={`min-h-dvh w-full overflow-y-auto px-6 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] flex flex-col items-center ${background ? '' : 'bg-background'}`}
+      className={`h-dvh w-full overflow-y-auto px-6 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] flex flex-col items-center ${background ? '' : 'bg-background'}`}
       style={background ? { backgroundColor: background } : undefined}
     >
       <div className="w-full max-w-sm flex flex-col items-center text-center flex-1">

@@ -6,21 +6,26 @@
 // (Sports Network keeps its white text).
 import { Button } from '@/components/ui/button';
 
+// privacyHref / supportHref: where the two links go (default: the app's own /privacy and /support pages).
+// privacyHref={null}: the app has no privacy page yet, so Privacy Policy shows grayed out and not clickable.
 type AppFooterProps = {
+  privacyHref?: string | null;
+  supportHref?: string;
   linkColor?: string;
   mutedColor?: string;
   strongColor?: string;
 };
 
-export function AppFooter({ linkColor, mutedColor, strongColor }: AppFooterProps) {
+export function AppFooter({ privacyHref = '/privacy', supportHref = '/support', linkColor, mutedColor, strongColor }: AppFooterProps) {
   const linkStyle = linkColor ? { color: linkColor } : undefined;
   return (
     <div className="mt-auto pt-10 flex flex-col items-center gap-1">
       <div className="flex justify-center gap-1">
-        <Button type="button" variant="link" size="sm" style={linkStyle} onClick={() => { window.location.href = '/privacy'; }}>
+        <Button type="button" variant="link" size="sm" style={linkStyle} disabled={!privacyHref}
+          onClick={() => { if (privacyHref) window.location.href = privacyHref; }}>
           Privacy Policy
         </Button>
-        <Button type="button" variant="link" size="sm" style={linkStyle} onClick={() => { window.location.href = '/support'; }}>
+        <Button type="button" variant="link" size="sm" style={linkStyle} onClick={() => { window.location.href = supportHref; }}>
           Support
         </Button>
       </div>

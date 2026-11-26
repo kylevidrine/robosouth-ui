@@ -17,9 +17,10 @@ type EmailFormProps = {
   busy?: boolean;
   onDarkPage?: boolean;
   buttonColor?: string;
+  buttonTextColor?: string;
 };
 
-export function EmailForm({ mode, values, onChange, onSubmit, busy, onDarkPage, buttonColor }: EmailFormProps) {
+export function EmailForm({ mode, values, onChange, onSubmit, busy, onDarkPage, buttonColor, buttonTextColor }: EmailFormProps) {
   const signup = mode === 'signup';
   const inputClass = onDarkPage ? 'text-white placeholder:text-white/50' : undefined;
   const inputStyle = onDarkPage ? { backgroundColor: 'rgba(255,255,255,0.1)', borderColor: 'rgba(255,255,255,0.3)' } : undefined;
@@ -36,7 +37,7 @@ export function EmailForm({ mode, values, onChange, onSubmit, busy, onDarkPage, 
         className={inputClass} style={inputStyle}
         value={values.password} onChange={(e) => onChange('password', e.target.value)} required />
       <Button type="submit" className="w-full h-11 text-sm font-bold" disabled={busy}
-        style={buttonColor ? { backgroundColor: buttonColor, color: '#FFFFFF' } : undefined}>
+        style={buttonColor ? { backgroundColor: buttonColor, color: buttonTextColor ?? '#FFFFFF' } : undefined}>
         {busy ? (signup ? 'Creating account…' : 'Signing in…') : (signup ? 'Create account' : 'Sign in')}
       </Button>
     </form>
