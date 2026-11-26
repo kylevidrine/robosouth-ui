@@ -14,11 +14,14 @@ type EmailButtonsProps = {
   textColor?: string;
   // fillTextColor: text color on the filled button when it differs from textColor (e.g. purple on gold).
   fillTextColor?: string;
+  // signInLabel / createLabel: button words (defaults keep every other app unchanged).
+  signInLabel?: string;
+  createLabel?: string;
 };
 
 const shape = 'flex-1 h-11 text-sm font-bold';
 
-export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlineColor, textColor, fillTextColor }: EmailButtonsProps) {
+export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlineColor, textColor, fillTextColor, signInLabel = 'Sign in with Email', createLabel = 'Create account' }: EmailButtonsProps) {
   return (
     <div className="flex gap-3 w-full">
       <Button
@@ -28,7 +31,7 @@ export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlin
         style={fillColor ? { backgroundColor: fillColor, color: fillTextColor ?? textColor } : undefined}
         onClick={onSignIn}
       >
-        Sign in with Email
+        {signInLabel}
       </Button>
       <Button
         type="button"
@@ -37,7 +40,7 @@ export function EmailButtons({ onSignIn, onCreate, signInOpen, fillColor, outlin
         style={outlineColor ? { borderColor: outlineColor, borderWidth: 2, backgroundColor: 'transparent', color: textColor } : undefined}
         onClick={onCreate}
       >
-        Create account
+        {createLabel}
       </Button>
     </div>
   );

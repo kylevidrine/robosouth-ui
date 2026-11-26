@@ -7,10 +7,10 @@
 import { Button } from '@/components/ui/button';
 
 // privacyHref / supportHref: where the two links go (default: the app's own /privacy and /support pages).
-// privacyHref={null}: the app has no privacy page yet, so Privacy Policy shows grayed out and not clickable.
+// privacyHref={null} / supportHref={null}: the app has no such page yet, so the link shows grayed out and not clickable.
 type AppFooterProps = {
   privacyHref?: string | null;
-  supportHref?: string;
+  supportHref?: string | null;
   linkColor?: string;
   mutedColor?: string;
   strongColor?: string;
@@ -25,7 +25,8 @@ export function AppFooter({ privacyHref = '/privacy', supportHref = '/support', 
           onClick={() => { if (privacyHref) window.location.href = privacyHref; }}>
           Privacy Policy
         </Button>
-        <Button type="button" variant="link" size="sm" style={linkStyle} onClick={() => { window.location.href = supportHref; }}>
+        <Button type="button" variant="link" size="sm" style={linkStyle} disabled={!supportHref}
+          onClick={() => { if (supportHref) window.location.href = supportHref; }}>
           Support
         </Button>
       </div>

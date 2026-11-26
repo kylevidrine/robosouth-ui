@@ -33,13 +33,13 @@ export function AppleSignInButton({ onClick, disabled, busy, comingSoon }: SignI
   );
 }
 
-export function GoogleSignInButton({ onClick, disabled, busy }: SignInButtonProps) {
+export function GoogleSignInButton({ onClick, disabled, busy, comingSoon }: SignInButtonProps) {
   return (
     <Button
       type="button"
       size="lg"
       className={`${shape} border border-[#8E918F] bg-[#131314] text-[#E3E3E3] hover:bg-[#131314]/90`}
-      disabled={disabled}
+      disabled={disabled || comingSoon}
       onClick={onClick}
     >
       <svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
@@ -49,6 +49,7 @@ export function GoogleSignInButton({ onClick, disabled, busy }: SignInButtonProp
         <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
       </svg>
       {busy ? 'Please wait…' : 'Sign in with Google'}
+      {comingSoon && <span className="text-xs font-semibold">(Coming soon)</span>}
     </Button>
   );
 }
