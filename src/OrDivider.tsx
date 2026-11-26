@@ -14,7 +14,7 @@ export function OrDivider({ lineColor, textColor }: OrDividerProps) {
     <div className="flex items-center gap-3 w-full my-4">
       <Separator className="h-px flex-1" style={lineStyle} />
       <span
-        className={`text-xs font-bold tracking-widest${textColor ? '' : ' text-muted-foreground'}`}
+        className={`text-xs font-bold tracking-widest ${textColor ? '' : 'text-muted-foreground'}`}
         style={textColor ? { color: textColor } : undefined}
       >
         OR

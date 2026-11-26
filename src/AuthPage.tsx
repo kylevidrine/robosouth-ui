@@ -12,7 +12,7 @@ type AuthPageProps = {
 export function AuthPage({ children, background }: AuthPageProps) {
   return (
     <div
-      className={`min-h-dvh w-full overflow-y-auto px-6 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] flex flex-col items-center${background ? '' : ' bg-background'}`}
+      className={`min-h-dvh w-full overflow-y-auto px-6 pb-8 pt-[calc(env(safe-area-inset-top)+2rem)] flex flex-col items-center ${background ? '' : 'bg-background'}`}
       style={background ? { backgroundColor: background } : undefined}
     >
       <div className="w-full max-w-sm flex flex-col items-center text-center flex-1">
@@ -31,7 +31,7 @@ export function AuthError({ message, color }: AuthErrorProps) {
   if (!message) return null;
   return (
     <p
-      className={`text-sm text-center mt-3${color ? '' : ' text-destructive'}`}
+      className={`text-sm text-center mt-3 ${color ? '' : 'text-destructive'}`}
       style={color ? { color } : undefined}
     >
       {message}

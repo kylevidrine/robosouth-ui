@@ -11,7 +11,7 @@ type AppTaglineProps = {
 export function AppTagline({ children, color }: AppTaglineProps) {
   return (
     <p
-      className={`text-base leading-relaxed mb-8${color ? '' : ' text-muted-foreground'}`}
+      className={`text-base leading-relaxed mb-8 ${color ? '' : 'text-muted-foreground'}`}
       style={color ? { color } : undefined}
     >
       {children}

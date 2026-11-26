@@ -12,7 +12,7 @@ export function AppLogo({ src, alt, bordered = false }: AppLogoProps) {
     <img
       src={src}
       alt={alt}
-      className={`size-56 object-contain rounded-3xl mb-6${bordered ? ' border-2 border-border' : ''}`}
+      className={`size-56 object-contain rounded-3xl mb-6 ${bordered ? 'border-2 border-border' : ''}`}
     />
   );
 }

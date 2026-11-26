@@ -11,7 +11,7 @@ type AppLabelProps = {
 export function AppLabel({ children, color }: AppLabelProps) {
   return (
     <p
-      className={`text-xs font-bold uppercase tracking-[0.18em] mb-8${color ? '' : ' text-muted-foreground'}`}
+      className={`text-xs font-bold uppercase tracking-[0.18em] mb-8 ${color ? '' : 'text-muted-foreground'}`}
       style={color ? { color } : undefined}
     >
       {children}

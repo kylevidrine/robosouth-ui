@@ -25,13 +25,13 @@ export function AppFooter({ linkColor, mutedColor, strongColor }: AppFooterProps
         </Button>
       </div>
       <p
-        className={`text-xs${mutedColor ? '' : ' text-muted-foreground'}`}
+        className={`text-xs ${mutedColor ? '' : 'text-muted-foreground'}`}
         style={mutedColor ? { color: mutedColor } : undefined}
       >
         Powered by{' '}
         <button
           type="button"
-          className={`font-semibold underline-offset-4 hover:underline${strongColor ? '' : ' text-foreground'}`}
+          className={`font-semibold underline-offset-4 hover:underline ${strongColor ? '' : 'text-foreground'}`}
           style={strongColor ? { color: strongColor } : undefined}
           onClick={() => { window.open('https://robosouthla.com', '_blank', 'noopener,noreferrer'); }}
         >
