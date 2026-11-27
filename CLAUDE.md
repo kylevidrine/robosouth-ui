@@ -18,6 +18,8 @@ This is a shared component library (@robosouth/ui), not an app. Several apps imp
 - If neither shadcn nor ReUI has it, stop and say so.
 - Name any new shadcn component a piece needs in its header comment so the apps know to install it.
 
+- The preview app (preview/) must use the same shadcn style as the apps (currently base-nova, copied from the apps' components.json), and its components are installed only with the official shadcn command. If the apps' style changes, update preview/components.json to match.
+
 ## Colors
 - Use only shadcn theme variables through semantic classes: bg-background, bg-card, text-muted-foreground, bg-primary, border, text-destructive, bg-sidebar, and so on.
 - Never hard-code colors: no hex, no rgb, no palette classes such as bg-green-600, no inline color styles.
