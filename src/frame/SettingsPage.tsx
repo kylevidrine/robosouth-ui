@@ -3,14 +3,17 @@
 // (it may return a promise); while that runs the confirm button shows the busy wording and the dialog stays open, and
 // if it throws, the dialog stays open with deleteError (or the thrown message) shown. All wording comes from props.
 // One column that fills a phone and sits at a readable width on desktop, same page padding as the other pages.
+// Optional children: extra sections the app wants shown under the Account card (the Delete my account area sits inside
+// that card, so extras follow it; for example a subscription card). They render in the same column; with no children the page is unchanged.
+// The confirm button is a stock Button with variant="destructive" (not AlertDialogAction, whose props differ between the
+// Base UI and Radix shadcn styles), so it type-checks and shows the theme's red in both styles.
 // Stock shadcn components: Card, Button, Separator, AlertDialog.
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
@@ -35,6 +38,8 @@ interface SettingsPageProps {
   cancelLabel?: string;
   // Shown inside the dialog when the app reports the deletion failed.
   deleteError?: string | null;
+  // Extra sections shown below the Account card.
+  children?: ReactNode;
 }
 
 export function SettingsPage({
@@ -52,6 +57,7 @@ export function SettingsPage({
   busyLabel = 'Deleting…',
   cancelLabel = 'Cancel',
   deleteError,
+  children,
 }: SettingsPageProps) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -92,6 +98,7 @@ export function SettingsPage({
           </div>
         </CardContent>
       </Card>
+      {children}
       <AlertDialog open={open} onOpenChange={(o) => { if (!busy) setOpen(o); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -101,9 +108,9 @@ export function SettingsPage({
           {error && <p className="text-sm text-destructive">{error}</p>}
           <AlertDialogFooter>
             <AlertDialogCancel disabled={busy}>{cancelLabel}</AlertDialogCancel>
-            <AlertDialogAction variant="destructive" disabled={busy} onClick={(e) => { e.preventDefault(); void confirm(); }}>
+            <Button variant="destructive" disabled={busy} onClick={() => { void confirm(); }}>
               {busy ? busyLabel : confirmLabel}
-            </AlertDialogAction>
+            </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

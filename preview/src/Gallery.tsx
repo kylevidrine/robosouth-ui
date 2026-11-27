@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Home, Users, Settings } from 'lucide-react';
 import { AppLabel, AppTagline, AppFooter, AuthPage, GoogleSignInButton, AppleSignInButton, OrDivider } from '@robosouth/ui';
 import { AppSidebar, AppSidebarProvider, AppTopBar, SettingsPage, StatusBadge } from '@robosouth/ui/frame';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -28,15 +29,25 @@ const items = [
   { path: '/settings', label: 'Settings', icon: Settings },
 ];
 
-function Shell() {
-  const [path, setPath] = useState('/');
+function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?: string }) {
+  const [path, setPath] = useState(start);
   return (
     <AppSidebarProvider>
       <AppSidebar appName="RoboSouth" logoMark={<Home className="size-4" />} items={items} activePath={path} onNavigate={setPath} />
       <SidebarInset className="pl-14 md:pl-0">
         <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
         {path === '/settings' ? (
-          <SettingsPage name="Sam Rivera" email="sam@example.com" onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} />
+          <SettingsPage name="Sam Rivera" email="sam@example.com" onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))}>
+            {withExtra && (
+              <Card className="w-full max-w-2xl">
+                <CardHeader>
+                  <CardTitle>Plan</CardTitle>
+                  <CardDescription>Sample extra section shown under the account.</CardDescription>
+                </CardHeader>
+                <CardContent><p className="text-sm text-muted-foreground">Your plan details would appear here.</p></CardContent>
+              </Card>
+            )}
+          </SettingsPage>
         ) : (
           <main className="p-6 flex flex-col gap-3">
             <h1 className="text-2xl font-semibold">{items.find((i) => i.path === path)?.label}</h1>
@@ -54,11 +65,15 @@ export function Gallery() {
   useEffect(() => { const f = () => setHash(location.hash); addEventListener('hashchange', f); return () => removeEventListener('hashchange', f); }, []);
   if (hash === '#/signin') return <SignIn />;
   if (hash === '#/app') return <Shell />;
+  if (hash === '#/settings') return <Shell start="/settings" />;
+  if (hash === '#/settings-extra') return <Shell start="/settings" withExtra />;
   return (
     <div className="p-8 flex flex-col gap-2">
       <h1 className="text-2xl font-semibold">RoboSouth UI preview</h1>
       <a className="underline" href="#/signin">Sign-in page</a>
       <a className="underline" href="#/app">App shell (menu + top bar)</a>
+      <a className="underline" href="#/settings">Settings page</a>
+      <a className="underline" href="#/settings-extra">Settings page with an extra section</a>
     </div>
   );
 }
