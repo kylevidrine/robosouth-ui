@@ -38,17 +38,7 @@ function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?
       <SidebarInset className="pl-14 md:pl-0">
         <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
         {path === '/settings' ? (
-          <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} footer={withExtra ? <><Button variant="link">Privacy Policy</Button><Button variant="link">Support</Button></> : undefined}>
-            {withExtra && (
-              <Card className="w-full">
-                <CardHeader>
-                  <CardTitle>Subscription</CardTitle>
-                  <CardDescription>Your plan.</CardDescription>
-                </CardHeader>
-                <CardContent><p className="text-sm text-muted-foreground">Your plan details would appear here.</p></CardContent>
-              </Card>
-            )}
-          </SettingsPage>
+          <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} plan={withExtra ? 'Beta' : undefined} planActions={withExtra ? <Button type="button" variant="outline">Manage subscription</Button> : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} footer={withExtra ? <><Button variant="link">Privacy Policy</Button><Button variant="link">Support</Button></> : undefined} />
         ) : (
           <main className="p-6 flex flex-col gap-3">
             <h1 className="text-2xl font-semibold">{items.find((i) => i.path === path)?.label}</h1>

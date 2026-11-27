@@ -7,7 +7,11 @@
 // Everything sits in ONE centered column: full width with side padding on a phone, a readable width centered on desktop.
 // Optional picture: the person's photo address, shown in a stock Avatar; when it is missing or fails to load, the Avatar
 // shows the first letter of the name (or email).
-// Optional children: extra cards rendered between the Account card and the Delete my account card.
+// Optional Subscription card: pass plan (the plan name to show) and a card titled Subscription appears right under Account
+// with a labeled Plan line in the same style as Name and Email; without plan the card is not rendered. Optional planActions
+// (for example a Manage subscription button) renders inside that card under the plan line. Wording props: subscriptionTitle,
+// subscriptionDescription, planLabel.
+// Optional children: extra cards rendered between the Subscription card and the Delete my account card.
 // Optional footer: rendered centered below the cards, meant for a row of links (Privacy Policy, Support, Terms).
 // The confirm button is a stock Button with variant="destructive" (not AlertDialogAction, whose props differ between the
 // Base UI and Radix shadcn styles), so it type-checks and shows the theme's red in both styles.
@@ -33,6 +37,13 @@ interface SettingsPageProps {
   // Optional photo address for the Avatar; without it the Avatar shows the first initial.
   picture?: string | null;
   onDeleteAccount: () => void | Promise<void>;
+  // Plan name to show in the Subscription card; when undefined the card is not rendered.
+  plan?: string | null;
+  // Shown inside the Subscription card under the plan line, for example a Manage subscription button.
+  planActions?: ReactNode;
+  subscriptionTitle?: string;
+  subscriptionDescription?: string;
+  planLabel?: string;
   title?: string;
   accountTitle?: string;
   accountDescription?: string;
@@ -56,6 +67,11 @@ export function SettingsPage({
   email,
   picture,
   onDeleteAccount,
+  plan,
+  planActions,
+  subscriptionTitle = 'Subscription',
+  subscriptionDescription = 'Your plan.',
+  planLabel = 'Plan',
   title = 'Settings',
   accountTitle = 'Account',
   accountDescription = 'The account you are signed in with.',
@@ -114,6 +130,21 @@ export function SettingsPage({
           </div>
         </CardContent>
       </Card>
+      {plan !== undefined && (
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>{subscriptionTitle}</CardTitle>
+            <CardDescription>{subscriptionDescription}</CardDescription>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1">
+              <Label>{planLabel}</Label>
+              <p className="text-sm">{plan}</p>
+            </div>
+            {planActions}
+          </CardContent>
+        </Card>
+      )}
       {children}
       <Card className="w-full">
         <CardHeader>
