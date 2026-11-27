@@ -37,9 +37,9 @@ function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?
       <SidebarInset className="pl-14 md:pl-0">
         <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
         {path === '/settings' ? (
-          <SettingsPage name="Sam Rivera" email="sam@example.com" onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))}>
+          <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))}>
             {withExtra && (
-              <Card className="w-full max-w-2xl">
+              <Card className="w-full">
                 <CardHeader>
                   <CardTitle>Plan</CardTitle>
                   <CardDescription>Sample extra section shown under the account.</CardDescription>

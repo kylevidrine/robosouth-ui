@@ -2,15 +2,19 @@
 // button that opens a confirmation dialog before anything happens. The app does the actual deletion in onDeleteAccount
 // (it may return a promise); while that runs the confirm button shows the busy wording and the dialog stays open, and
 // if it throws, the dialog stays open with deleteError (or the thrown message) shown. All wording comes from props.
-// One column that fills a phone and sits at a readable width on desktop, same page padding as the other pages.
+// Everything (heading, Account card, and any children) sits in ONE centered column: full width with side padding on a
+// phone, a readable width centered on desktop, so it lines up with the centered links row under it.
+// Optional picture: the person's photo address, shown in a stock Avatar beside the name and email; when it is missing
+// or fails to load, the Avatar shows the first letter of the name (or email).
 // Optional children: extra sections the app wants shown under the Account card (the Delete my account area sits inside
 // that card, so extras follow it; for example a subscription card). They render in the same column; with no children the page is unchanged.
 // The confirm button is a stock Button with variant="destructive" (not AlertDialogAction, whose props differ between the
 // Base UI and Radix shadcn styles), so it type-checks and shows the theme's red in both styles.
-// Stock shadcn components: Card, Button, Separator, AlertDialog.
+// Stock shadcn components: Card, Button, Separator, AlertDialog, Avatar (apps without it: npx shadcn@latest add avatar).
 import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
   AlertDialog,
@@ -25,6 +29,8 @@ import {
 interface SettingsPageProps {
   name: string;
   email: string;
+  // Optional photo address for the Avatar; without it the Avatar shows the first initial.
+  picture?: string | null;
   onDeleteAccount: () => void | Promise<void>;
   title?: string;
   accountTitle?: string;
@@ -45,6 +51,7 @@ interface SettingsPageProps {
 export function SettingsPage({
   name,
   email,
+  picture,
   onDeleteAccount,
   title = 'Settings',
   accountTitle = 'Account',
@@ -79,17 +86,23 @@ export function SettingsPage({
   const error = deleteError ?? failure;
 
   return (
-    <div className="flex flex-col gap-4 p-4 md:p-6">
+    <div className="mx-auto flex w-full max-w-2xl flex-col gap-4 p-4 md:p-6">
       <h1 className="text-xl font-semibold">{title}</h1>
-      <Card className="w-full max-w-2xl">
+      <Card className="w-full">
         <CardHeader>
           <CardTitle>{accountTitle}</CardTitle>
           <CardDescription>{accountDescription}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <div className="min-w-0">
-            {name && <p className="truncate font-medium">{name}</p>}
-            <p className="truncate text-sm text-muted-foreground">{email}</p>
+          <div className="flex items-center gap-3">
+            <Avatar>
+              {picture && <AvatarImage src={picture} alt="" />}
+              <AvatarFallback>{(name || email).trim().charAt(0).toUpperCase()}</AvatarFallback>
+            </Avatar>
+            <div className="min-w-0">
+              {name && <p className="truncate font-medium">{name}</p>}
+              <p className="truncate text-sm text-muted-foreground">{email}</p>
+            </div>
           </div>
           <Separator />
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
