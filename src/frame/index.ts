@@ -11,3 +11,18 @@ export { AdminConsole } from './AdminConsole';
 export { AdminUsersTable } from './AdminUsersTable';
 export type { AdminUserRow } from './AdminUsersTable';
 export { TablePager } from './TablePager';
+// List and detail pieces for CRM-style pages (customers, properties, jobs): tables, cards, forms, filters, selection.
+export { StatusBadge } from './StatusBadge';
+export type { StatusTone } from './StatusBadge';
+export { FormField, OptionSelect, FormSection, TextField, TextAreaField, CheckField } from './FormField';
+export { useServerList } from './useServerList';
+export type { ServerList } from './useServerList';
+export { DataTable } from './DataTable';
+export type { Column } from './DataTable';
+export { DetailShell, PageHeader } from './DetailShell';
+export { FilterSheet } from './FilterSheet';
+export { ListCard } from './ListCard';
+export { SelectionBar } from './SelectionBar';
+export { RemoteCombobox } from './RemoteCombobox';
+export type { PickerItem } from './RemoteCombobox';
+export { CardList } from './CardList';
