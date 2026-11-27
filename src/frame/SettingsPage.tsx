@@ -3,7 +3,8 @@
 // and a separate Delete my account card with its own description and a full-width-on-phone red button. The button opens
 // a confirmation dialog before anything happens. The app does the actual deletion in onDeleteAccount (it may return a
 // promise); while that runs the confirm button shows the busy wording and the dialog stays open, and if it throws, the
-// dialog stays open with deleteError (or the thrown message) shown. All wording comes from props.
+// dialog stays open with deleteError (or the thrown message) shown. The Delete card and dialog wording is FIXED in this file
+// (DELETE_WORDING) and cannot be overridden, so every app shows the same words. Other wording comes from props.
 // Everything sits in ONE centered column: full width with side padding on a phone, a readable width centered on desktop.
 // Optional picture: the person's photo address, shown in a stock Avatar; when it is missing or fails to load, the Avatar
 // shows the first letter of the name (or email).
@@ -47,13 +48,6 @@ interface SettingsPageProps {
   title?: string;
   accountTitle?: string;
   accountDescription?: string;
-  deleteLabel?: string;
-  deleteHint?: string;
-  confirmTitle?: string;
-  confirmDescription?: string;
-  confirmLabel?: string;
-  busyLabel?: string;
-  cancelLabel?: string;
   // Shown inside the dialog when the app reports the deletion failed.
   deleteError?: string | null;
   // Extra cards shown between the Account card and the Delete my account card.
@@ -61,6 +55,17 @@ interface SettingsPageProps {
   // Shown centered below the cards, for example a row of links.
   footer?: ReactNode;
 }
+
+// Fixed wording for the Delete card and its dialog. Not props on purpose: every app shows exactly the same words.
+const DELETE_WORDING = {
+  deleteLabel: 'Delete my account',
+  deleteHint: 'Permanently delete your account and everything saved with it. This cannot be undone.',
+  confirmTitle: 'Delete your account?',
+  confirmDescription: 'This permanently deletes your account and everything saved with it. It cannot be undone.',
+  confirmLabel: 'Delete my account',
+  busyLabel: 'Deleting…',
+  cancelLabel: 'Cancel',
+};
 
 export function SettingsPage({
   name,
@@ -75,13 +80,6 @@ export function SettingsPage({
   title = 'Settings',
   accountTitle = 'Account',
   accountDescription = 'The account you are signed in with.',
-  deleteLabel = 'Delete my account',
-  deleteHint = 'Permanently delete your account and everything saved with it. This cannot be undone.',
-  confirmTitle = 'Delete your account?',
-  confirmDescription = 'This permanently deletes your account and everything saved with it. It cannot be undone.',
-  confirmLabel = 'Delete my account',
-  busyLabel = 'Deleting…',
-  cancelLabel = 'Cancel',
   deleteError,
   children,
   footer,
@@ -148,25 +146,25 @@ export function SettingsPage({
       {children}
       <Card className="w-full">
         <CardHeader>
-          <CardTitle>{deleteLabel}</CardTitle>
-          <CardDescription>{deleteHint}</CardDescription>
+          <CardTitle>{DELETE_WORDING.deleteLabel}</CardTitle>
+          <CardDescription>{DELETE_WORDING.deleteHint}</CardDescription>
         </CardHeader>
         <CardContent>
-          <Button variant="destructive" className="w-full sm:w-auto" onClick={() => { setFailure(null); setOpen(true); }}>{deleteLabel}</Button>
+          <Button variant="destructive" className="w-full sm:w-auto" onClick={() => { setFailure(null); setOpen(true); }}>{DELETE_WORDING.deleteLabel}</Button>
         </CardContent>
       </Card>
       {footer && <div className="flex justify-center gap-1">{footer}</div>}
       <AlertDialog open={open} onOpenChange={(o) => { if (!busy) setOpen(o); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>{confirmTitle}</AlertDialogTitle>
-            <AlertDialogDescription>{confirmDescription}</AlertDialogDescription>
+            <AlertDialogTitle>{DELETE_WORDING.confirmTitle}</AlertDialogTitle>
+            <AlertDialogDescription>{DELETE_WORDING.confirmDescription}</AlertDialogDescription>
           </AlertDialogHeader>
           {error && <p className="text-sm text-destructive">{error}</p>}
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={busy}>{cancelLabel}</AlertDialogCancel>
+            <AlertDialogCancel disabled={busy}>{DELETE_WORDING.cancelLabel}</AlertDialogCancel>
             <Button variant="destructive" disabled={busy} onClick={() => { void confirm(); }}>
-              {busy ? busyLabel : confirmLabel}
+              {busy ? DELETE_WORDING.busyLabel : DELETE_WORDING.confirmLabel}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>
