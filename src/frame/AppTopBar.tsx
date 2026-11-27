@@ -12,7 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 
 interface AppTopBarProps {
   name: string;
@@ -27,8 +26,7 @@ const initials = (name: string) => name.split(' ').filter(Boolean).map((w) => w[
 
 export function AppTopBar({ name, email, picture, onThemes, onSettings, onSignOut }: AppTopBarProps) {
   return (
-    <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-between border-b bg-background px-4 md:justify-end md:px-6">
-      <SidebarTrigger className="md:hidden" aria-label="Menu" />
+    <header className="sticky top-0 z-20 flex h-16 shrink-0 items-center justify-end border-b bg-background px-4 md:px-6">
       <DropdownMenu>
         <DropdownMenuTrigger className="rounded-full focus:outline-hidden" aria-label="Account menu">
           <Avatar className="cursor-pointer">

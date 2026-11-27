@@ -3,6 +3,7 @@
 // sign-in pieces so an app that has not adopted the frame never loads these).
 export { AppSidebar } from './AppSidebar';
 export type { NavItem } from './AppSidebar';
+export { MobileIconStrip } from './MobileIconStrip';
 export { AppTopBar } from './AppTopBar';
 export { ThemeFields, ThemesPage, THEME_PRESETS, applyTheme } from './ThemeFields';
 export type { Theme } from './ThemeFields';

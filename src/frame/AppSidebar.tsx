@@ -16,6 +16,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from '@/components/ui/sidebar';
+import { MobileIconStrip } from './MobileIconStrip';
 
 export interface NavItem {
   path: string;
@@ -41,6 +42,8 @@ export function AppSidebar({ appName, logoMark, items, activePath, onNavigate }:
     onNavigate(path);
   };
   return (
+    <>
+    {isMobile && <MobileIconStrip items={items} activePath={activePath} isActive={isActive} onNavigate={onNavigate} />}
     <Sidebar collapsible="icon" className="pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pt-[env(safe-area-inset-top)]">
       <SidebarHeader>
         <SidebarMenu>
@@ -75,5 +78,6 @@ export function AppSidebar({ appName, logoMark, items, activePath, onNavigate }:
       </SidebarContent>
       <SidebarRail />
     </Sidebar>
+    </>
   );
 }
