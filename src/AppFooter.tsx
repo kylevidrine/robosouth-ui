@@ -11,12 +11,14 @@ import { Button } from '@/components/ui/button';
 type AppFooterProps = {
   privacyHref?: string | null;
   supportHref?: string | null;
+  // termsHref: leave out (the default) and no Terms link shows; pass '/terms' in an app that has a Terms page.
+  termsHref?: string;
   linkColor?: string;
   mutedColor?: string;
   strongColor?: string;
 };
 
-export function AppFooter({ privacyHref = '/privacy', supportHref = '/support', linkColor, mutedColor, strongColor }: AppFooterProps) {
+export function AppFooter({ privacyHref = '/privacy', supportHref = '/support', termsHref, linkColor, mutedColor, strongColor }: AppFooterProps) {
   const linkStyle = linkColor ? { color: linkColor } : undefined;
   return (
     <div className="mt-auto pt-10 flex flex-col items-center gap-1">
@@ -25,6 +27,11 @@ export function AppFooter({ privacyHref = '/privacy', supportHref = '/support', 
           onClick={() => { if (privacyHref) window.location.href = privacyHref; }}>
           Privacy Policy
         </Button>
+        {termsHref && (
+          <Button type="button" variant="link" size="sm" style={linkStyle} onClick={() => { window.location.href = termsHref; }}>
+            Terms of Use
+          </Button>
+        )}
         <Button type="button" variant="link" size="sm" style={linkStyle} disabled={!supportHref}
           onClick={() => { if (supportHref) window.location.href = supportHref; }}>
           Support
