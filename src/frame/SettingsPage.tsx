@@ -13,7 +13,9 @@
 // (for example a Manage subscription button) renders inside that card under the plan line. Wording props: subscriptionTitle,
 // subscriptionDescription, planLabel.
 // Optional children: extra cards rendered between the Subscription card and the Delete my account card.
-// Optional footer: rendered centered below the cards, meant for a row of links (Privacy Policy, Support, Terms).
+// Links row: the last element of the centered column shows three stock link Buttons, Privacy Policy, Terms of Use and Support,
+// identical in every app. They go to privacyHref, termsHref and supportHref (defaults /privacy, /terms, /support) by setting
+// window.location.href, so any router works. Apps cannot change the labels or hide a link.
 // The confirm button is a stock Button with variant="destructive" (not AlertDialogAction, whose props differ between the
 // Base UI and Radix shadcn styles), so it type-checks and shows the theme's red in both styles.
 // Stock shadcn components: Card, Button, Label, AlertDialog, Avatar (apps without it: npx shadcn@latest add avatar).
@@ -52,8 +54,10 @@ interface SettingsPageProps {
   deleteError?: string | null;
   // Extra cards shown between the Account card and the Delete my account card.
   children?: ReactNode;
-  // Shown centered below the cards, for example a row of links.
-  footer?: ReactNode;
+  // Where the three links go. Pass only if the app's pages live on other paths.
+  privacyHref?: string;
+  termsHref?: string;
+  supportHref?: string;
 }
 
 // Fixed wording for the Delete card and its dialog. Not props on purpose: every app shows exactly the same words.
@@ -82,7 +86,9 @@ export function SettingsPage({
   accountDescription = 'The account you are signed in with.',
   deleteError,
   children,
-  footer,
+  privacyHref = '/privacy',
+  termsHref = '/terms',
+  supportHref = '/support',
 }: SettingsPageProps) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -153,7 +159,11 @@ export function SettingsPage({
           <Button variant="destructive" className="w-full sm:w-auto" onClick={() => { setFailure(null); setOpen(true); }}>{DELETE_WORDING.deleteLabel}</Button>
         </CardContent>
       </Card>
-      {footer && <div className="flex justify-center gap-1">{footer}</div>}
+      <div className="flex justify-center gap-1">
+        <Button type="button" variant="link" size="sm" onClick={() => { window.location.href = privacyHref; }}>Privacy Policy</Button>
+        <Button type="button" variant="link" size="sm" onClick={() => { window.location.href = termsHref; }}>Terms of Use</Button>
+        <Button type="button" variant="link" size="sm" onClick={() => { window.location.href = supportHref; }}>Support</Button>
+      </div>
       <AlertDialog open={open} onOpenChange={(o) => { if (!busy) setOpen(o); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
