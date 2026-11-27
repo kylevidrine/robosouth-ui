@@ -4,6 +4,7 @@
 export { AppSidebar } from './AppSidebar';
 export type { NavItem } from './AppSidebar';
 export { MobileIconStrip } from './MobileIconStrip';
+export { AppSidebarProvider } from './AppSidebarProvider';
 export { AppTopBar } from './AppTopBar';
 export { ThemeFields, ThemesPage, THEME_PRESETS, applyTheme } from './ThemeFields';
 export type { Theme } from './ThemeFields';
