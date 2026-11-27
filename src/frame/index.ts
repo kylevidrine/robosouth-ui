@@ -6,6 +6,8 @@ export type { NavItem } from './AppSidebar';
 export { MobileIconStrip } from './MobileIconStrip';
 export { AppSidebarProvider } from './AppSidebarProvider';
 export { AppTopBar } from './AppTopBar';
+export { AppLogoMark } from './AppLogoMark';
+export { AppShell } from './AppShell';
 export { ThemeFields, ThemesPage, THEME_PRESETS, applyTheme } from './ThemeFields';
 export type { Theme } from './ThemeFields';
 export { SettingsPage } from './SettingsPage';

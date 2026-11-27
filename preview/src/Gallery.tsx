@@ -3,9 +3,8 @@ import { useEffect, useState } from 'react';
 import { Home, Users, Settings } from 'lucide-react';
 import { AppLabel, AppTagline, AppFooter, AuthPage, GoogleSignInButton, AppleSignInButton, OrDivider } from '@robosouth/ui';
 import { Button } from '@/components/ui/button';
-import { AppSidebar, AppSidebarProvider, AppTopBar, SettingsPage, StatusBadge } from '@robosouth/ui/frame';
+import { AppShell, AppLogoMark, SettingsPage, StatusBadge } from '@robosouth/ui/frame';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { SidebarInset } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
 function SignIn() {
@@ -33,10 +32,18 @@ const items = [
 function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?: string }) {
   const [path, setPath] = useState(start);
   return (
-    <AppSidebarProvider>
-      <AppSidebar appName="RoboSouth" logoMark={<Home className="size-4" />} items={items} activePath={path} onNavigate={setPath} />
-      <SidebarInset className="pl-14 md:pl-0">
-        <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
+    <>
+      <AppShell
+        appName="RoboSouth"
+        logoMark={<AppLogoMark icon={Home} />}
+        items={items}
+        activePath={path}
+        onNavigate={setPath}
+        user={{ name: 'Sam Rivera', email: 'sam@example.com' }}
+        onThemes={() => {}}
+        onSettings={() => setPath('/settings')}
+        onSignOut={() => {}}
+      >
         {path === '/settings' ? (
           <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} plan={withExtra ? 'Beta' : undefined} planActions={withExtra ? <Button type="button" variant="outline">Manage subscription</Button> : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} footer={withExtra ? <><Button variant="link">Privacy Policy</Button><Button variant="link">Support</Button></> : undefined} />
         ) : (
@@ -45,9 +52,9 @@ function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?
             <div className="flex gap-2"><StatusBadge label="Active" /><StatusBadge label="Pending" tone="neutral" /></div>
           </main>
         )}
-      </SidebarInset>
+      </AppShell>
       <Toaster />
-    </AppSidebarProvider>
+    </>
   );
 }
 
