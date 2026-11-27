@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Home, Users, Settings } from 'lucide-react';
 import { AppLabel, AppTagline, AppFooter, AuthPage, GoogleSignInButton, AppleSignInButton, OrDivider } from '@robosouth/ui';
+import { Button } from '@/components/ui/button';
 import { AppSidebar, AppSidebarProvider, AppTopBar, SettingsPage, StatusBadge } from '@robosouth/ui/frame';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { SidebarInset } from '@/components/ui/sidebar';
@@ -37,12 +38,12 @@ function Shell({ withExtra = false, start = '/' }: { withExtra?: boolean; start?
       <SidebarInset className="pl-14 md:pl-0">
         <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
         {path === '/settings' ? (
-          <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))}>
+          <SettingsPage name="Sam Rivera" email="sam@example.com" picture={withExtra ? '/sample-photo-missing.png' : undefined} onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} footer={withExtra ? <><Button variant="link">Privacy Policy</Button><Button variant="link">Support</Button></> : undefined}>
             {withExtra && (
               <Card className="w-full">
                 <CardHeader>
-                  <CardTitle>Plan</CardTitle>
-                  <CardDescription>Sample extra section shown under the account.</CardDescription>
+                  <CardTitle>Subscription</CardTitle>
+                  <CardDescription>Your plan.</CardDescription>
                 </CardHeader>
                 <CardContent><p className="text-sm text-muted-foreground">Your plan details would appear here.</p></CardContent>
               </Card>

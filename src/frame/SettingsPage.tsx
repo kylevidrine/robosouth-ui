@@ -1,21 +1,22 @@
-// Shared Settings page: a heading, then an Account card showing the person's name and email, and a Delete my account
-// button that opens a confirmation dialog before anything happens. The app does the actual deletion in onDeleteAccount
-// (it may return a promise); while that runs the confirm button shows the busy wording and the dialog stays open, and
-// if it throws, the dialog stays open with deleteError (or the thrown message) shown. All wording comes from props.
-// Everything (heading, Account card, and any children) sits in ONE centered column: full width with side padding on a
-// phone, a readable width centered on desktop, so it lines up with the centered links row under it.
-// Optional picture: the person's photo address, shown in a stock Avatar beside the name and email; when it is missing
-// or fails to load, the Avatar shows the first letter of the name (or email).
-// Optional children: extra sections the app wants shown under the Account card (the Delete my account area sits inside
-// that card, so extras follow it; for example a subscription card). They render in the same column; with no children the page is unchanged.
+// Shared Settings page, the same three-card layout in every app: a heading, an Account card (the person's picture, then
+// labeled Name and Email lines), any extra cards the app supplies between Account and Delete (for example Subscription),
+// and a separate Delete my account card with its own description and a full-width-on-phone red button. The button opens
+// a confirmation dialog before anything happens. The app does the actual deletion in onDeleteAccount (it may return a
+// promise); while that runs the confirm button shows the busy wording and the dialog stays open, and if it throws, the
+// dialog stays open with deleteError (or the thrown message) shown. All wording comes from props.
+// Everything sits in ONE centered column: full width with side padding on a phone, a readable width centered on desktop.
+// Optional picture: the person's photo address, shown in a stock Avatar; when it is missing or fails to load, the Avatar
+// shows the first letter of the name (or email).
+// Optional children: extra cards rendered between the Account card and the Delete my account card.
+// Optional footer: rendered centered below the cards, meant for a row of links (Privacy Policy, Support, Terms).
 // The confirm button is a stock Button with variant="destructive" (not AlertDialogAction, whose props differ between the
 // Base UI and Radix shadcn styles), so it type-checks and shows the theme's red in both styles.
-// Stock shadcn components: Card, Button, Separator, AlertDialog, Avatar (apps without it: npx shadcn@latest add avatar).
+// Stock shadcn components: Card, Button, Label, AlertDialog, Avatar (apps without it: npx shadcn@latest add avatar).
 import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Separator } from '@/components/ui/separator';
+import { Label } from '@/components/ui/label';
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -44,8 +45,10 @@ interface SettingsPageProps {
   cancelLabel?: string;
   // Shown inside the dialog when the app reports the deletion failed.
   deleteError?: string | null;
-  // Extra sections shown below the Account card.
+  // Extra cards shown between the Account card and the Delete my account card.
   children?: ReactNode;
+  // Shown centered below the cards, for example a row of links.
+  footer?: ReactNode;
 }
 
 export function SettingsPage({
@@ -57,7 +60,7 @@ export function SettingsPage({
   accountTitle = 'Account',
   accountDescription = 'The account you are signed in with.',
   deleteLabel = 'Delete my account',
-  deleteHint = 'Permanently deletes your account and everything saved with it.',
+  deleteHint = 'Permanently delete your account and everything saved with it. This cannot be undone.',
   confirmTitle = 'Delete your account?',
   confirmDescription = 'This permanently deletes your account and everything saved with it. It cannot be undone.',
   confirmLabel = 'Delete my account',
@@ -65,6 +68,7 @@ export function SettingsPage({
   cancelLabel = 'Cancel',
   deleteError,
   children,
+  footer,
 }: SettingsPageProps) {
   const [open, setOpen] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -94,24 +98,33 @@ export function SettingsPage({
           <CardDescription>{accountDescription}</CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">
-          <div className="flex items-center gap-3">
-            <Avatar>
-              {picture && <AvatarImage src={picture} alt="" />}
-              <AvatarFallback>{(name || email).trim().charAt(0).toUpperCase()}</AvatarFallback>
-            </Avatar>
-            <div className="min-w-0">
-              {name && <p className="truncate font-medium">{name}</p>}
-              <p className="truncate text-sm text-muted-foreground">{email}</p>
+          <Avatar>
+            {picture && <AvatarImage src={picture} alt={name} referrerPolicy="no-referrer" />}
+            <AvatarFallback>{(name || email).trim().charAt(0).toUpperCase()}</AvatarFallback>
+          </Avatar>
+          {name && (
+            <div className="flex flex-col gap-1">
+              <Label>Name</Label>
+              <p className="text-sm">{name}</p>
             </div>
-          </div>
-          <Separator />
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-sm text-muted-foreground">{deleteHint}</p>
-            <Button variant="destructive" className="shrink-0" onClick={() => { setFailure(null); setOpen(true); }}>{deleteLabel}</Button>
+          )}
+          <div className="flex flex-col gap-1">
+            <Label>Email</Label>
+            <p className="text-sm">{email}</p>
           </div>
         </CardContent>
       </Card>
       {children}
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>{deleteLabel}</CardTitle>
+          <CardDescription>{deleteHint}</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Button variant="destructive" className="w-full sm:w-auto" onClick={() => { setFailure(null); setOpen(true); }}>{deleteLabel}</Button>
+        </CardContent>
+      </Card>
+      {footer && <div className="flex justify-center gap-1">{footer}</div>}
       <AlertDialog open={open} onOpenChange={(o) => { if (!busy) setOpen(o); }}>
         <AlertDialogContent>
           <AlertDialogHeader>
