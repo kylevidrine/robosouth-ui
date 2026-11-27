@@ -1,6 +1,6 @@
 // Shared admin Users list, modeled on the AI Accountant's: search box, table with a plan Select, a Protected checkbox and
-// a Delete button with a confirmation dialog, then the shared pager. A protected or admin account cannot be deleted
-// (the button is disabled and the server refuses as well).
+// a Delete button with a confirmation dialog, then the shared pager. Only a protected account, or the signed-in admin's
+// own account, cannot be deleted (the button is disabled and the server refuses as well). An unprotected admin can be deleted.
 // The app supplies authFetch (adds the sign-in token) and its server routes under /api/admin/users:
 // GET (list), DELETE {email}, PUT /plan {email, plan}, PUT /protected {email, protected}.
 // Stock shadcn components of each app: Table, Input, Badge, Button, Checkbox, Select, AlertDialog, Spinner, sonner toast.
@@ -117,8 +117,7 @@ export function AdminUsersTable({ authFetch, currentEmail }: AdminUsersTableProp
   if (!rows) return <div className="flex h-64 items-center justify-center"><Spinner className="size-8" /></div>;
 
   const visible = filtered.slice((page - 1) * pageSize, page * pageSize);
-  const locked = (r: AdminUserRow) => r.protected || r.admin || r.email.toLowerCase() === currentEmail.toLowerCase();
-  const lockedReason = (r: AdminUserRow) => (r.protected ? 'is protected and cannot be deleted. Uncheck Protected first' : r.admin ? 'is an administrator and cannot be deleted' : 'is your own account and cannot be deleted');
+  const locked = (r: AdminUserRow) => r.protected || r.email.toLowerCase() === currentEmail.toLowerCase();
 
   return (
     <div className="flex-1 overflow-y-auto p-4">
@@ -173,7 +172,8 @@ export function AdminUsersTable({ authFetch, currentEmail }: AdminUsersTableProp
                     <Button
                       variant="destructive"
                       size="icon"
-                      aria-label={locked(r) ? `${r.name || r.email} ${lockedReason(r)}` : `Delete ${r.name || r.email}`}
+                      aria-label={r.protected ? `${r.name || r.email} is protected and cannot be deleted` : `Delete ${r.name || r.email}`}
+                      title={r.protected ? 'Protected. Uncheck Protected to delete.' : undefined}
                       disabled={locked(r)}
                       onClick={() => { if (locked(r)) return; setDeleteError(''); setToDelete(r); }}
                     >
