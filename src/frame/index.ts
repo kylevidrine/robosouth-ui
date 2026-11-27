@@ -8,6 +8,7 @@ export { AppSidebarProvider } from './AppSidebarProvider';
 export { AppTopBar } from './AppTopBar';
 export { ThemeFields, ThemesPage, THEME_PRESETS, applyTheme } from './ThemeFields';
 export type { Theme } from './ThemeFields';
+export { SettingsPage } from './SettingsPage';
 export { LegalShell, LegalSection, LegalMail, SUPPORT_EMAIL } from './LegalShell';
 export { AdminConsole } from './AdminConsole';
 export { AdminUsersTable } from './AdminUsersTable';

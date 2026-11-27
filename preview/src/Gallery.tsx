@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import { Home, Users, Settings } from 'lucide-react';
 import { AppLabel, AppTagline, AppFooter, AuthPage, GoogleSignInButton, AppleSignInButton, OrDivider } from '@robosouth/ui';
-import { AppSidebar, AppSidebarProvider, AppTopBar, StatusBadge } from '@robosouth/ui/frame';
+import { AppSidebar, AppSidebarProvider, AppTopBar, SettingsPage, StatusBadge } from '@robosouth/ui/frame';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { Toaster } from '@/components/ui/sonner';
 
@@ -33,12 +33,16 @@ function Shell() {
   return (
     <AppSidebarProvider>
       <AppSidebar appName="RoboSouth" logoMark={<Home className="size-4" />} items={items} activePath={path} onNavigate={setPath} />
-      <SidebarInset>
-        <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => {}} onSignOut={() => {}} />
-        <main className="p-6 flex flex-col gap-3">
-          <h1 className="text-2xl font-semibold">{items.find((i) => i.path === path)?.label}</h1>
-          <div className="flex gap-2"><StatusBadge label="Active" /><StatusBadge label="Pending" tone="neutral" /></div>
-        </main>
+      <SidebarInset className="pl-14 md:pl-0">
+        <AppTopBar name="Sam Rivera" email="sam@example.com" onThemes={() => {}} onSettings={() => setPath('/settings')} onSignOut={() => {}} />
+        {path === '/settings' ? (
+          <SettingsPage name="Sam Rivera" email="sam@example.com" onDeleteAccount={() => new Promise((r) => setTimeout(r, 800))} />
+        ) : (
+          <main className="p-6 flex flex-col gap-3">
+            <h1 className="text-2xl font-semibold">{items.find((i) => i.path === path)?.label}</h1>
+            <div className="flex gap-2"><StatusBadge label="Active" /><StatusBadge label="Pending" tone="neutral" /></div>
+          </main>
+        )}
       </SidebarInset>
       <Toaster />
     </AppSidebarProvider>

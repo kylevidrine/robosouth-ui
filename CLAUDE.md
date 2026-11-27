@@ -41,6 +41,12 @@ This is a shared component library (@robosouth/ui), not an app. Several apps imp
 ## Long lists
 - Any list that can grow long gets a search box above it (stock Input, outside the list) and the shared TablePager footer, 25 per page by default. See DataTable.tsx and CardList.tsx.
 
+## Pushing
+- Never push to main.
+- Push each batch of work to a new branch in this same repo (origin) with a short name that describes the work.
+- Never reuse a branch name that already exists on the remote. Check with `git ls-remote --heads origin <name>` first.
+- Tell the person the branch name after pushing.
+
 ## Before you finish
 - This repo has no type-check script, tsconfig or installed dependencies. Re-read your code carefully for type errors instead, and say in your report that no type check was run.
 - Never put a key, token or password in any file.
